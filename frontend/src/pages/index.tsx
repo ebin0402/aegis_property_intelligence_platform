@@ -1,31 +1,30 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
-  const [properties, setProperties] = useState([]);
+  const [results, setResults] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:8000/properties/")
-      .then(res => res.json())
-      .then(data => setProperties(data));
-  }, []);
+  const search = async () => {
+    const res = await fetch("http://localhost:8000/search/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ location: "Kent", max_price: 400000 })
+    });
+
+    const data = await res.json();
+    setResults(data);
+  };
 
   return (
-    <div style={{ padding: 30, fontFamily: "Arial" }}>
-      <h1>🏠 AEGIS Property Intelligence Platform</h1>
+    <div style={{ padding: 30 }}>
+      <h1>AEGIS Property Intelligence</h1>
 
-      <p>AI-powered property decisions for buyers and investors</p>
+      <button onClick={search}>Search Properties</button>
 
-      {properties.map(p => (
-        <div key={p.id} style={{
-          margin: 10,
-          padding: 15,
-          border: "1px solid #ddd",
-          borderRadius: 8
-        }}>
+      {results.map(p => (
+        <div key={p.id} style={{ marginTop: 10 }}>
           <h3>{p.title}</h3>
-          <p>💰 £{p.price}</p>
-          <p>📍 {p.location}</p>
-          <p>🛏 {p.bedrooms} bedrooms</p>
+          <p>£{p.price}</p>
+          <p>{p.location}</p>
         </div>
       ))}
     </div>
