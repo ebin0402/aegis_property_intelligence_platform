@@ -1,4 +1,10 @@
 from fastapi import FastAPI
-app = FastAPI(title="Aegis Core API")
+from app.api.router import api_router
+
+app = FastAPI(title="AEGIS Property Intelligence API")
+
+app.include_router(api_router)
+
 @app.get("/")
-def root(): return {"status": "healthy"}
+def root():
+    return {"message": "AEGIS Backend Running"}
