@@ -1,31 +1,20 @@
-from fastapi import APIRouter
-
-router = APIRouter()
-
-MOCK_PROPERTIES = [
-    {
-        "id": 1,
-        "title": "Modern Family Home",
-        "price": 350000,
-        "location": "Kent",
-        "bedrooms": 3
-    },
-    {
-        "id": 2,
-        "title": "City Apartment",
-        "price": 275000,
-        "location": "London",
-        "bedrooms": 2
-    }
-]
-
-@router.get("/")
-def list_properties():
-    return MOCK_PROPERTIES
-
-@router.get("/{property_id}")
-def get_property(property_id: int):
-    for p in MOCK_PROPERTIES:
-        if p["id"] == property_id:
-            return p
-    return {"error": "Property not found"}
+@router.get("/properties")
+def get_properties():
+    return [
+        {
+            "id": 1,
+            "title": "Kent House 1",
+            "price": 250000,
+            "lat": 51.27,
+            "lng": 0.52,
+            "deal_score": 78
+        },
+        {
+            "id": 2,
+            "title": "Kent House 2",
+            "price": 320000,
+            "lat": 51.35,
+            "lng": 0.48,
+            "deal_score": 82
+        }
+    ]
