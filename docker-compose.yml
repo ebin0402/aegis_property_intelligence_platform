@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports: ["8000:8000"]
+    volumes: ["./backend:/app"]
+    depends_on: [postgres, redis]
+  frontend:
+    build: ./frontend
+    ports: ["3000:3000"]
+    volumes: ["./frontend:/app"]
+  postgres:
+    image: postgis/postgis:15-3.3
+    ports: ["5432:5432"]
+  redis:
+    image: redis:7-alpine
